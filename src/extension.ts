@@ -5,8 +5,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "translateincode" is now active!');
 
-	const disposable = vscode.commands.registerCommand('translateincode.translate', () => {
+	const outputChannel = vscode.window.createOutputChannel('TranslateInCode');
 
+	const disposable = vscode.commands.registerCommand('translateincode.translate', () => {
+		outputChannel.show();
+		outputChannel.appendLine('Translating text ...');
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
 			return;
@@ -20,13 +23,14 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		translate(text, { from: 'auto', to: 'zh' }).then((res) => {
-			vscode.window.showInformationMessage(res.text);
+			outputChannel.appendLine(`Translated text: ${res.text}`);
 		}).catch((err) => {
-			vscode.window.showErrorMessage(err.message);
+			outputChannel.appendLine(`Translation failed: ${err.message}`);
 		});
 	});
 
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(outputChannel);
 }
 
 export function deactivate() {}
