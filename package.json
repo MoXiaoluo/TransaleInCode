@@ -1,8 +1,8 @@
 {
   "name": "translateincode",
-  "displayName": "translateInCode",
-  "description": "translate text in vscode",
-  "version": "0.0.1",
+  "displayName": "TranslateInCode",
+  "description": "Easy to translate text in vscode",
+  "version": "0.0.2",
   "icon": "translation.png",
   "author": {
     "name": "MoXiaoluo",
@@ -71,6 +71,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@vitalets/google-translate-api": "^9.2.0"
+    "@vitalets/google-translate-api": "^9.2.0",
+    "ollama": "^0.5.9"
   }
 }

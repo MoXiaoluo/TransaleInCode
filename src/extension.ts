@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { translate } from "@vitalets/google-translate-api";
-import { outputChannel } from './utils';
+import { outputChannel } from './utils/outputChannel';
+import { translateByGoogle } from './utils/transaltion';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -22,16 +22,13 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!text) {
 			return;
 		}
-		// @Todo: support multiple languages from config
-		translate(text, { from: 'auto', to: 'zh' }).then((res) => {
-			outputChannel.appendLine(`Translated ${text}: ${res.text}`);
-		}).catch((err) => {
-			outputChannel.appendLine(`Translation failed: ${err.message}`);
-		});
+		translateByGoogle(text);
 	});
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(outputChannel);
+
+	
 }
 
 export function deactivate() { }
