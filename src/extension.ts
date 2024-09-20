@@ -1,11 +1,12 @@
 import * as vscode from 'vscode';
 import { translate } from "@vitalets/google-translate-api";
+import { outputChannel } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "translateincode" is now active!');
 
-	const outputChannel = vscode.window.createOutputChannel('TranslateInCode');
+
 
 	const disposable = vscode.commands.registerCommand('translateincode.translate', () => {
 		outputChannel.show();
@@ -21,9 +22,9 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!text) {
 			return;
 		}
-
+		// @Todo: support multiple languages from config
 		translate(text, { from: 'auto', to: 'zh' }).then((res) => {
-			outputChannel.appendLine(`Translated text: ${res.text}`);
+			outputChannel.appendLine(`Translated ${text}: ${res.text}`);
 		}).catch((err) => {
 			outputChannel.appendLine(`Translation failed: ${err.message}`);
 		});
@@ -33,4 +34,4 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(outputChannel);
 }
 
-export function deactivate() {}
+export function deactivate() { }

@@ -3,6 +3,18 @@
   "displayName": "translateInCode",
   "description": "translate text in vscode",
   "version": "0.0.1",
+  "icon": "translation.png",
+  "author": {
+    "name": "MoXiaoluo",
+    "email": "771595316@qq.com"
+  },
+  "publisher": "MoXiaoluo",
+  "license": "MIT",
+  "keywords": [
+    "translate",
+    "translation",
+    "translateInCode"
+  ],
   "engines": {
     "vscode": "^1.93.0"
   },
