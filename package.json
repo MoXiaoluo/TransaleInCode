@@ -30,7 +30,7 @@
     "commands": [
       {
         "command": "translateincode.translate",
-        "title": "Translate word"
+        "title": "Translate"
       }
     ],
     "menus": {
@@ -41,7 +41,19 @@
           "group": "translation"
         }
       ]
-    }
+    },
+    "configuration":[
+      {
+        "title": "TranslateInCode",
+        "properties": {
+          "translateincode.SaveTranslation": {
+            "type": "boolean",
+            "default": false,
+            "description": "save the translate result to local file"
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",

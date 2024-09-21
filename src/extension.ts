@@ -1,34 +1,15 @@
 import * as vscode from 'vscode';
 import { outputChannel } from './utils/outputChannel';
-import { translateByGoogle } from './utils/transaltion';
+import { commands } from './common/constant';
+import { translateWord } from './command';
 
 export function activate(context: vscode.ExtensionContext) {
+    console.log('Congratulations, your extension "translateincode" is now active!');
 
-	console.log('Congratulations, your extension "translateincode" is now active!');
+    const disposable = vscode.commands.registerCommand(commands.translate, translateWord);
 
-
-
-	const disposable = vscode.commands.registerCommand('translateincode.translate', () => {
-		outputChannel.show();
-		outputChannel.appendLine('Translating text ...');
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) {
-			return;
-		}
-
-		const selection = editor.selection;
-		const text = editor.document.getText(selection);
-
-		if (!text) {
-			return;
-		}
-		translateByGoogle(text);
-	});
-
-	context.subscriptions.push(disposable);
-	context.subscriptions.push(outputChannel);
-
-	
+    context.subscriptions.push(disposable);
+    context.subscriptions.push(outputChannel);
 }
 
-export function deactivate() { }
+export function deactivate() {}
