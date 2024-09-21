@@ -2,7 +2,7 @@
   "name": "translateincode",
   "displayName": "TranslateInCode",
   "description": "Easy to translate text in vscode",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "icon": "translation.png",
   "author": {
     "name": "MoXiaoluo",
