@@ -2,9 +2,10 @@ import os from 'node:os';
 import fs from 'fs';
 import fsp from 'fs/promises';
 import { translate } from '@vitalets/google-translate-api';
-import { outputChannel } from './outputChannel';
+import { appendLineWithTimestamp } from './outputChannel';
 import ollama from 'ollama';
 import { getConfig } from './configuration';
+import dayjs from 'dayjs';
 
 /**
  * Translate the word by ollama
@@ -21,7 +22,7 @@ export const translateByOllama = async (text: string) => {
         ],
     });
     console.log(res);
-    outputChannel.appendLine(`Translated ${text}: ${res.message.content}`);
+    appendLineWithTimestamp(`Translated ${text}: ${res.message.content}`);
 };
 /**
  * Translate the word by google
@@ -33,10 +34,10 @@ export const translateByGoogle = (text: string) => {
             if (getConfig().get('SaveTranslation')) {
                 saveWrodInLocalWithMd(text, res.text);
             }
-            outputChannel.appendLine(`Translated ${text}: ${res.text}`);
+            appendLineWithTimestamp(`Translated ${text}: ${res.text}`);
         })
         .catch((err) => {
-            outputChannel.appendLine(`Translation failed: ${err.message}`);
+            appendLineWithTimestamp(`Translation failed: ${err.message}`);
         });
 };
 
@@ -50,12 +51,24 @@ const saveWrodInLocalWithMd = async (origin: string, translation: string) => {
     const file = `${homePath}/.translateincode/translate.md`;
     if (!fs.existsSync(`${homePath}/.translateincode`)) {
         await fsp.mkdir(`${homePath}/.translateincode`);
-        await fsp.writeFile(file, '# TranslateInCode\n\n| 原文 | 翻译 |\n| --- | --- |');
-    } else if (!fs.existsSync(file)) {
-        await fsp.writeFile(file, '# TranslateInCode\n\n| 原文 | 翻译 |\n| --- | --- |');
+        await fsp.writeFile(file, '# TranslateInCode\n\nStudy English Every Day, Enjoy your life.\n\n');
+    }
+    const date = dayjs().format('YYYY-MM-DD');
+    const fileContent = await fsp.readFile(file, 'utf-8');
+
+    if (!fileContent.includes(date)) {
+        await fsp.appendFile(file, `\n\n${date} Translated Words:\n\n`);
+        await fsp.appendFile(file, '| 原文 | 翻译 |\n| --- | --- |');
     }
 
     await fsp.appendFile(file, `\n|${origin} | ${translation}|`);
 
-    outputChannel.appendLine('saved successfully');
+    appendLineWithTimestamp('saved successfully');
+};
+
+export const translationDictionaryContent = async () => {
+    if (!fs.existsSync(`${os.homedir()}/.translateincode/translate.md`)) {
+        return;
+    }
+    return await fsp.readFile(`${os.homedir()}/.translateincode/translate.md`, 'utf-8');
 };

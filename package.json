@@ -30,7 +30,13 @@
     "commands": [
       {
         "command": "translateincode.translate",
-        "title": "Translate"
+        "title": "Translate",
+        "category": "translation"
+      },
+      {
+        "command": "translateincode.openTranslationDictionary",
+        "title": "Translation Dictionary",
+        "category": "translation"
       }
     ],
     "menus": {
@@ -39,10 +45,14 @@
           "when": "editorTextFocus",
           "command": "translateincode.translate",
           "group": "translation"
+        },
+        {
+          "command": "translateincode.openTranslationDictionary",
+          "group": "translation"
         }
       ]
     },
-    "configuration":[
+    "configuration": [
       {
         "title": "TranslateInCode",
         "properties": {
@@ -69,6 +79,7 @@
     "publish": "pnpm vsce publish --no-dependencies"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@types/vscode": "^1.93.0",
@@ -84,6 +95,8 @@
   },
   "dependencies": {
     "@vitalets/google-translate-api": "^9.2.0",
+    "dayjs": "^1.11.13",
+    "markdown-it": "^14.1.0",
     "ollama": "^0.5.9"
   }
 }

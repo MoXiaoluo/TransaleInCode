@@ -1,3 +1,4 @@
 export const commands = {
-    translate: 'translateincode.translate'
+    translateWord: 'translateincode.translate',
+    translationDictory: 'translateincode.openTranslationDictionary',
 } as const;
